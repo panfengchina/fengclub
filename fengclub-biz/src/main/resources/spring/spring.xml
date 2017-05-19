@@ -16,7 +16,7 @@
    <import resource="classpath:/database/mongodb-context.xml"/>  
   
   <!--自动扫描含有@Service将其注入为bean -->
-	<context:component-scan base-package="com.fengclub.service.Impl" />
+	<context:component-scan base-package="com.fengclub.biz.service" />
    <!--  <aop:aspectj-autoproxy /> -->  
       
     <!--  <bean id="applicationContextUtil" class="com.junlenet.common.util.ApplicationContextUtil"></bean> -->  

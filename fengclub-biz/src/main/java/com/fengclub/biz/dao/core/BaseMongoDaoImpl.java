@@ -1,11 +1,10 @@
-package org.fengclub.biz.dao.core;
+package com.fengclub.biz.dao.core;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.fengclub.biz.entity.ClubUser;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -162,11 +161,5 @@ public class BaseMongoDaoImpl<T> implements BaseMongoDao<T> {
         return ReflectionUtils.getSuperClassGenricType(getClass());  
     }
 	
-	public static void main(String[] a) {
-		
-		ClubUser p = new ClubUser();
-		p.setName("潘峰测试数据5月18日");
-		
-	}
     
 }

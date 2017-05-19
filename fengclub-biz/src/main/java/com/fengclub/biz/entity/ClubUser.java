@@ -1,4 +1,4 @@
-package org.fengclub.biz.entity;
+package com.fengclub.biz.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

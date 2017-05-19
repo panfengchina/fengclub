@@ -1,4 +1,4 @@
-package org.fengclub.biz.dao.core;
+package com.fengclub.biz.dao.core;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.query.Query;  

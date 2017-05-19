@@ -1,4 +1,4 @@
-package org.fengclub.biz.dao.core;
+package com.fengclub.biz.dao.core;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.fengclub.biz.dao.core;
+package com.fengclub.biz.dao.core;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
