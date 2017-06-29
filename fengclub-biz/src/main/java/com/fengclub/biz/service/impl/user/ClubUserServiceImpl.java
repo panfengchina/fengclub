@@ -13,7 +13,7 @@ public class ClubUserServiceImpl implements ClubUserService {
 	@Autowired
 	private BaseMongoDao<ClubUser> clubUserdao;
 	
-	public void insert() {
+	public void insertClubUser() {
 		ClubUser cb=new ClubUser();
 		cb.setName("潘峰测试数据5月19日");
 		clubUserdao.save(cb);

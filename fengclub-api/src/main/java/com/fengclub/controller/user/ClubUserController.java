@@ -17,7 +17,7 @@ public class ClubUserController {
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public Boolean add(){
-		clubUserService.insert();
+		clubUserService.insertClubUser();
 		return true;
 	}
 }

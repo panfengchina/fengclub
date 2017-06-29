@@ -1,10 +1,17 @@
 package com.fengclub.biz.entity;
 
+import java.io.Serializable;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class ClubUser {
+public class ClubUser implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8091827021601467099L;
 
 	@Id  
     private String id;
