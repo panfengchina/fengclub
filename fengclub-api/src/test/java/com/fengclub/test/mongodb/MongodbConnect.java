@@ -28,7 +28,7 @@ public class MongodbConnect {
 			ServerAddress addr = new ServerAddress(li.get(3), 27017);
 			client = new MongoClient(addr, Arrays.asList(credential));
 			// 得到数据库
-			DB mdb = client.getDB("HappyCommunity");
+			DB mdb = client.getDB(li.get(1));
 
 			// 得到Table
 			DBCollection table = mdb.getCollection("test"); // 查询所有
