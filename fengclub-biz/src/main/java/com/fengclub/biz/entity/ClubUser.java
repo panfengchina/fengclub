@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Component;
+
 
 @Document
+@Component("clubUser")
 public class ClubUser implements Serializable {
 
 	/**
