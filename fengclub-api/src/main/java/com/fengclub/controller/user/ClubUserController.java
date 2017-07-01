@@ -27,9 +27,10 @@ public class ClubUserController {
 	
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public @ResponseBody ResponseValues get(){
-		List<ClubUser> list=clubUserService.findClubUser();
 		ResponseValues rv=new ResponseValues();
+		List<ClubUser> list=clubUserService.findClubUser();
 		rv.setData(list);
 		return rv;
 	}
+
 }
