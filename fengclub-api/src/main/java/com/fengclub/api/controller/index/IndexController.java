@@ -1,4 +1,4 @@
-package com.fengclub.controller.index;
+package com.fengclub.api.controller.index;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

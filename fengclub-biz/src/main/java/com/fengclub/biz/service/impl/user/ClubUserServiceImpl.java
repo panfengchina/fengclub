@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fengclub.biz.dao.ClubUserDAO;
-import com.fengclub.biz.entity.ClubUser;
+import com.fengclub.biz.dao.user.ClubUserDAO;
+import com.fengclub.biz.entity.user.ClubUser;
 import com.fengclub.biz.service.user.ClubUserService;
 
 @Service

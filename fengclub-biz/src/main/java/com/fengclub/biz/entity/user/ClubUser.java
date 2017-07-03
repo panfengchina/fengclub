@@ -1,4 +1,4 @@
-package com.fengclub.biz.entity;
+package com.fengclub.biz.entity.user;
 
 import java.io.Serializable;
 
