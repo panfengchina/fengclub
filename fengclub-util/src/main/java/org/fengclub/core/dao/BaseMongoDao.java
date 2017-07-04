@@ -52,8 +52,12 @@ public class BaseMongoDao<T> {
     }  
   
     public Page<T> findPage(Page<T> page, Query query,Class<T> clazz) {  
-        //如果没有条件 则所有全部  
-        query=query==null?new Query(Criteria.where("_id").exists(true)):query;  
+        //如果没有条件 则所有全部
+    	if(query==null){
+    		query=new Query();
+    		query.addCriteria(Criteria.where("_id").exists(true));
+    	}
+		query.addCriteria(Criteria.where("available").is(true));  
         long count = this.count(query,clazz);  
         // 总数  
         page.setTotalCount((int) count);  
@@ -83,10 +87,10 @@ public class BaseMongoDao<T> {
         return mongoTemplate.findAndModify(query, update, clazz);  
     }  
   
-    public WriteResult update(T entity,Class<T> clazz) {  
+    public boolean update(T entity,Class<T> clazz) {  
         Field[] fields = clazz.getDeclaredFields();  
         if (fields == null || fields.length <= 0) {  
-            return null;  
+            return false;  
         }  
         Field idField = null;  
         // 查找ID的field  
@@ -98,7 +102,7 @@ public class BaseMongoDao<T> {
             }  
         }  
         if (idField == null) {  
-            return null;  
+            return false;  
         }  
         idField.setAccessible(true);  
         String id=null;  
@@ -110,33 +114,51 @@ public class BaseMongoDao<T> {
             e.printStackTrace();  
         }  
         if (id == null || "".equals(id.trim()))  
-            return null;  
+            return false;  
         // 根据ID更新  
-        Query query = new Query(Criteria.where("_id").is(id));  
-        // 更新  
-        // Update update = new Update();  
-        // for (Field field : fields) {  
-        // // 不为空 不是主键 不是序列化号  
-        // if (field != null  
-        // && field != idField  
-        // && !"serialversionuid"  
-        // .equals(field.getName().toLowerCase())) {  
-        // field.setAccessible(true);  
-        // Object obj = field.get(entity);  
-        // if (obj == null)  
-        // continue;  
-        // update.set(field.getName(), obj);  
-        // }  
-        // }  
+        Query query = new Query(Criteria.where("_id").is(id));   
         Update update = ReflectionUtils.getUpdateObj(entity);  
         if (update == null) {  
-            return null;  
+            return false;  
         }  
-        return mongoTemplate.updateFirst(query, update, clazz);  
+        WriteResult wr=mongoTemplate.updateFirst(query, update, clazz);
+        if (null != wr) {
+            if (wr.getN() > 0) {
+                return true;
+            }
+        }
+    	return false;
     }  
   
-    public void remove(Query query,Class<T> clazz) {  
-        mongoTemplate.remove(query, clazz);  
+    /**
+     * 物理删除，注意此方法操作记录不可撤销不可恢复 ，慎用
+     * @author Art.pan
+     * @param id 要删除的记录 id
+     * @param clazz 类类型
+     * @return true删除成功，false 删除失败
+     */
+    public boolean deepRemove(Query query,Class<T> clazz) {  
+    	WriteResult wr=mongoTemplate.remove(query, clazz);
+    	if (null != wr) {
+            if (wr.getN() > 0) {
+                return true;
+            }
+        }
+    	return false;
     }
     
+    /**
+     * 逻辑删除
+     * @author Art.pan
+     * @param id 要删除的记录 id
+     * @param clazz 类类型
+     * @return true删除成功，false 删除失败
+     */
+    public boolean remove(String id,Class<T> clazz) {  
+    	T wr=mongoTemplate.findAndModify(new Query(Criteria.where("id").is(id)), new Update().set("available", false), clazz);
+    	if (null != wr) {
+           return true;
+        }
+    	return false;
+    }
 }
