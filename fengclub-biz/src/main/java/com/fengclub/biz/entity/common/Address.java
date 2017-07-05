@@ -1,5 +1,6 @@
 package com.fengclub.biz.entity.common;
 
+import org.bson.types.ObjectId;
 import org.fengclub.core.entity.CommonEntity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,7 +16,7 @@ public class Address extends CommonEntity{
 
 	@Id
 	@ApiModelProperty(value="唯一id")
-	private String id;
+	private ObjectId id;
 	
 	@ApiModelProperty(value="省市区")
 	private Region region;
@@ -26,11 +27,11 @@ public class Address extends CommonEntity{
 	@ApiModelProperty(value="备注")
 	private String remark;
 
-	public String getId() {
+	public ObjectId getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(ObjectId id) {
 		this.id = id;
 	}
 

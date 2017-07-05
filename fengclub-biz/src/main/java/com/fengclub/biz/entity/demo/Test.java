@@ -3,6 +3,7 @@ package com.fengclub.biz.entity.demo;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.fengclub.core.entity.CommonEntity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,7 +21,7 @@ public class Test extends CommonEntity{
 
 	@Id
 	@ApiModelProperty(value="唯一id")
-	private String id;
+	private ObjectId id;
 	
 	@ApiModelProperty(value="姓名")
 	private String name;
@@ -38,10 +39,10 @@ public class Test extends CommonEntity{
 	private List<Address> address;
 
 	public String getId() {
-		return id;
+		return id.toString();
 	}
 
-	public void setId(String id) {
+	public void setId(ObjectId id) {
 		this.id = id;
 	}
 

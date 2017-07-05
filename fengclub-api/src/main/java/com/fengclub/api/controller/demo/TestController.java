@@ -1,6 +1,9 @@
 package com.fengclub.api.controller.demo;
 
 
+import java.util.List;
+
+import org.fengclub.core.dao.Page;
 import org.fengclub.view.ResponseValues;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,14 +21,15 @@ import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping(value = "/Test")
-@Api(value = "/Test", description = "普通用户的操作")
+@Api(value = "/Test", description = "调试类的操作")
 public class TestController {
 
 	@Autowired
 	private TestService testService;
 	
-	@ApiOperation(value = "创建调试类", notes = "创建调试类")   
+	  
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@ApiOperation(value = "创建Test", response = ResponseValues.class) 
 	public ResponseValues add(@RequestBody @ApiParam(value = "创建调试类Test", required = true)  Test test){
 		ResponseValues rv=new ResponseValues();
 		Test t=testService.addTest(test);
@@ -35,9 +39,45 @@ public class TestController {
 	
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	@ApiOperation(value = "根据id获取Test", response = ResponseValues.class)
-	public ResponseValues get(@PathVariable("orderId") String id){
+	public ResponseValues getById(@PathVariable("id") String id){
 		ResponseValues rv=new ResponseValues();
 		Test t=testService.findTestById(id);
+		rv.setData(t);
+		return rv;
+	}
+	
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+	@ApiOperation(value = "获取所有Test", response = ResponseValues.class)
+	public ResponseValues getAll(){
+		ResponseValues rv=new ResponseValues();
+		List<Test> t=testService.findTestByAll();
+		rv.setData(t);
+		return rv;
+	}
+	
+	@RequestMapping(value = "/getPage", method = RequestMethod.GET)
+	@ApiOperation(value = "分页获取Test", response = ResponseValues.class)
+	public ResponseValues getPage(@PathVariable("currentPage") int currentPage,@PathVariable("pageSize") int pageSize){
+		ResponseValues rv=new ResponseValues();
+		Page<Test> t=testService.findTestByPage(currentPage, pageSize);
+		rv.setData(t);
+		return rv;
+	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+	@ApiOperation(value = "根据id删除Test", response = ResponseValues.class)
+	public ResponseValues delete(@PathVariable("id") String id){
+		ResponseValues rv=new ResponseValues();
+		boolean t=testService.deleteTestById(id);
+		rv.setData(t);
+		return rv;
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.PUT)
+	@ApiOperation(value = "修改Test", response = ResponseValues.class)
+	public ResponseValues update(@RequestBody @ApiParam(value = "创建调试类Test", required = true)  Test test){
+		ResponseValues rv=new ResponseValues();
+		Test t=testService.updateTest(test);
 		rv.setData(t);
 		return rv;
 	}
