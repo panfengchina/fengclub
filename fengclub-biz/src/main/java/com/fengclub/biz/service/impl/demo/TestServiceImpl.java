@@ -2,12 +2,12 @@ package com.fengclub.biz.service.impl.demo;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.fengclub.core.dao.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.fengclub.biz.dao.demo.TestDAO;
@@ -28,19 +28,25 @@ public class TestServiceImpl implements TestService {
 		return testDao.findById(id, Test.class);
 	}
 
-	public Test updateTest(Test test) {
-		Query query=new Query();
-		Update update=new Update();
-		// TODO 根据条件修改
-		return testDao.updateOne(query, update, Test.class);
+	public Boolean updateTest(Test test) {
+		return testDao.update(test,Test.class);
 	}
 
 	public Boolean deleteTestById(String id) {
 		return testDao.remove(id, Test.class);
 	}
+	
+	public Boolean deleteTestByIdDeep(String id) {
+		return testDao.deepRemove(id, Test.class);
+	}
 
 	public List<Test> findTestByAll() {
 		return testDao.findAll(Test.class);
+	}
+	
+	public Boolean updateTestByCustom(Map<String, Object> map) {
+		
+		return testDao.updateByCustom(map, Test.class);
 	}
 
 	public Page<Test> findTestByPage(int currentPage, int pageSize) {

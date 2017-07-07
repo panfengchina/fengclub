@@ -1,6 +1,7 @@
 package com.fengclub.biz.service.demo;
 
 import java.util.List;
+import java.util.Map;
 
 import org.fengclub.core.dao.Page;
 
@@ -27,10 +28,18 @@ public interface TestService {
 	/**
 	 * 修改test类
 	 * @author Art.pan
-	 * @param test
+	 * @param map 需要修改的字段值
 	 * @return test
 	 */
-	public abstract Test updateTest(Test test);
+	public abstract Boolean updateTestByCustom(Map<String, Object> map);
+	
+	/**
+	 * 修改test类
+	 * @author Art.pan
+	 * @param Test 全部覆盖更新
+	 * @return test
+	 */
+	public abstract Boolean updateTest(Test Test);
 	
 	/**
 	 * 根据id删除test
@@ -40,6 +49,13 @@ public interface TestService {
 	 */
 	public abstract Boolean deleteTestById(String id);
 	
+	/**
+	 * 根据id删除test，物理删除
+	 * @author Art.pan
+	 * @param id
+	 * @return true
+	 */
+	public abstract Boolean deleteTestByIdDeep(String id);
 	/**
 	 * 查询所有test
 	 * @author Art.pan

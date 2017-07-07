@@ -3,13 +3,10 @@ package org.fengclub.core.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public abstract class CommonEntity implements Serializable{
+public abstract class CommonEntity implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 968979979039604922L;
-	
+
 	private Date createDate;
 
 	private String createBy;
@@ -17,15 +14,20 @@ public abstract class CommonEntity implements Serializable{
 	private Date lastUpdateDate;
 
 	private String lastUpdateBy;
-	
+
 	private Date deleteDate;
 
 	private String deleteDateBy;
-	
+
 	private Boolean available;
 
 	public Date getCreateDate() {
-		return createDate;
+		if (null == this.createDate) {
+			return new Date();
+		} else {
+			return this.createDate;
+		}
+
 	}
 
 	public void setCreateDate(Date createDate) {
@@ -41,7 +43,12 @@ public abstract class CommonEntity implements Serializable{
 	}
 
 	public Date getLastUpdateDate() {
-		return lastUpdateDate;
+		if (null == this.lastUpdateDate) {
+			return new Date();
+		} else {
+			return this.lastUpdateDate;
+		}
+
 	}
 
 	public void setLastUpdateDate(Date lastUpdateDate) {
@@ -57,7 +64,11 @@ public abstract class CommonEntity implements Serializable{
 	}
 
 	public Date getDeleteDate() {
-		return deleteDate;
+		if (null == this.deleteDate) {
+			return new Date();
+		} else {
+			return this.deleteDate;
+		}
 	}
 
 	public void setDeleteDate(Date deleteDate) {
@@ -79,7 +90,5 @@ public abstract class CommonEntity implements Serializable{
 	public void setAvailable(Boolean available) {
 		this.available = available;
 	}
-	
-	
 
 }

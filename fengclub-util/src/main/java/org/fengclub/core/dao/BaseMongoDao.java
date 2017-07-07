@@ -1,10 +1,14 @@
 package org.fengclub.core.dao;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -27,8 +31,9 @@ public class BaseMongoDao<T> {
         return entity;  
     }  
   
-    public T findById(String id,Class<T> clazz) {  
-        return mongoTemplate.findById(id, clazz);  
+    public T findById(String id,Class<T> clazz) {
+    	 ObjectId objid=new ObjectId(id);
+        return mongoTemplate.findById(objid, clazz);  
     }  
   
     public T findById(String id, String collectionName,Class<T> clazz) {  
@@ -73,11 +78,31 @@ public class BaseMongoDao<T> {
         return mongoTemplate.count(query, clazz);  
     }  
   
-    public WriteResult update(Query query, Update update,Class<T> clazz) {  
-        if (update==null) {  
-            return null;  
-        }  
-        return mongoTemplate.updateMulti(query, update, clazz);  
+    public boolean updateByCustom(Map<String, Object> map,Class<T> clazz) {  
+    	Field[] fields = clazz.getDeclaredFields();
+    	Query query=new Query();
+		
+    	for (Field field : fields) {
+    		for (Entry<String, Object> entry : map.entrySet()) {
+    			if(field.getName().equals(entry.getKey())){
+    				if("id".equals(field.getName())){
+    					query.addCriteria(Criteria.where("_id").is(entry.getValue()));
+    				}else if(entry.getValue() instanceof Collection ||entry.getValue() instanceof Map){
+    					System.out.println(entry.getValue());
+    				}else{
+    					query.addCriteria(Criteria.where(field.getName()).is(entry.getValue()));
+    				}
+    			}
+    		}
+    	}
+    	
+    	/*WriteResult wr=mongoTemplate.findAndModify(query, update, clazz);
+        if (null != wr) {
+            if (wr.getN() > 0) {
+                return true;
+            }
+        }*/
+    	return false;
     }  
   
     public T updateOne(Query query, Update update,Class<T> clazz) {  
@@ -107,7 +132,7 @@ public class BaseMongoDao<T> {
         idField.setAccessible(true);  
         String id=null;  
         try {  
-            id = (String) idField.get(entity);  
+            id = idField.get(entity).toString();  
         } catch (IllegalArgumentException e) {  
             e.printStackTrace();  
         } catch (IllegalAccessException e) {  
@@ -137,8 +162,8 @@ public class BaseMongoDao<T> {
      * @param clazz 类类型
      * @return true删除成功，false 删除失败
      */
-    public boolean deepRemove(Query query,Class<T> clazz) {  
-    	WriteResult wr=mongoTemplate.remove(query, clazz);
+    public boolean deepRemove(String id,Class<T> clazz) {  
+    	WriteResult wr=mongoTemplate.remove(new Query(Criteria.where("_id").is(id)), clazz);
     	if (null != wr) {
             if (wr.getN() > 0) {
                 return true;
@@ -155,7 +180,7 @@ public class BaseMongoDao<T> {
      * @return true删除成功，false 删除失败
      */
     public boolean remove(String id,Class<T> clazz) {  
-    	T wr=mongoTemplate.findAndModify(new Query(Criteria.where("id").is(id)), new Update().set("available", false), clazz);
+    	T wr=mongoTemplate.findAndModify(new Query(Criteria.where("_id").is(id)), new Update().set("available", false), clazz);
     	if (null != wr) {
            return true;
         }
