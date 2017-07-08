@@ -44,7 +44,7 @@ public class TestServiceImpl implements TestService {
 		return testDao.findAll(Test.class);
 	}
 	
-	public Boolean updateTestByCustom(Map<String, Object> map) {
+	public Test updateTestByCustom(Map<String, Object> map) {
 		
 		return testDao.updateByCustom(map, Test.class);
 	}

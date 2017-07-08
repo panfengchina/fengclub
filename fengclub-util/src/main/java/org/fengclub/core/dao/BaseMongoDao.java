@@ -78,10 +78,10 @@ public class BaseMongoDao<T> {
         return mongoTemplate.count(query, clazz);  
     }  
   
-    public boolean updateByCustom(Map<String, Object> map,Class<T> clazz) {  
+    public T updateByCustom(Map<String, Object> map,Class<T> clazz) {  
     	Field[] fields = clazz.getDeclaredFields();
     	Query query=new Query();
-		
+    	Update update=new Update();
     	for (Field field : fields) {
     		for (Entry<String, Object> entry : map.entrySet()) {
     			if(field.getName().equals(entry.getKey())){
@@ -91,18 +91,12 @@ public class BaseMongoDao<T> {
     					System.out.println(entry.getValue());
     				}else{
     					query.addCriteria(Criteria.where(field.getName()).is(entry.getValue()));
+    					update = Update.update(field.getName(), entry.getValue());
     				}
     			}
     		}
     	}
-    	
-    	/*WriteResult wr=mongoTemplate.findAndModify(query, update, clazz);
-        if (null != wr) {
-            if (wr.getN() > 0) {
-                return true;
-            }
-        }*/
-    	return false;
+    	return mongoTemplate.findAndModify(query, update, clazz);
     }  
   
     public T updateOne(Query query, Update update,Class<T> clazz) {  

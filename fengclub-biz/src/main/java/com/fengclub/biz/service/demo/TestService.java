@@ -31,7 +31,7 @@ public interface TestService {
 	 * @param map 需要修改的字段值
 	 * @return test
 	 */
-	public abstract Boolean updateTestByCustom(Map<String, Object> map);
+	public abstract Test updateTestByCustom(Map<String, Object> map);
 	
 	/**
 	 * 修改test类

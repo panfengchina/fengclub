@@ -103,7 +103,7 @@ public class TestController {
 	public ResponseValues updateByCustom(@RequestBody @ApiParam(value = "创建调试类Test", required = true) Map<String,Object> map){
 		ResponseValues rv=new ResponseValues();
 		System.out.println(map);
-		Boolean t=testService.updateTestByCustom(map);
+		Test t=testService.updateTestByCustom(map);
 		rv.setData(t);
 		return rv;
 	}
