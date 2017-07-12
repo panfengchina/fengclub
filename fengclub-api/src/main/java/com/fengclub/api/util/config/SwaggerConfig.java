@@ -16,9 +16,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-/**
- * Created by xiaohui on 2016/1/14.
- */
 @EnableWebMvc  
 @EnableSwagger2  
 @ComponentScan(basePackages = {"com.fengclub.api.controller"})  
